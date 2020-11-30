@@ -1,15 +1,15 @@
-class Permission
-  def initialize(object, action)
-    @object = object
-    @action = action
-  end
+module Rubac
+  class Permission
+    def initialize(object, action, conditions, roles)
+      @object = object
+      @action = action
+      @conditions = conditions
+      @olres = roles
+    end
 
-  def roles
-    ['roles']
-  end
-
-  def conditions(roles: nil)
-    roles.nil? ? ['conditions'] : ['conditions for roles']
+    def evaluate(user, context)
+      @conditions.all? { |condition| condition.evaluate(user, context) }
+    end
   end
 end
 
